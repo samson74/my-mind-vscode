@@ -1,0 +1,51 @@
+{
+	"name": "mymind",
+	"displayName": "mindmap(mymind)",
+	"description": "mymind is a mindmap tool based on pure h5.",
+	"icon": "mymind/logo/logo256.png",
+	"version": "0.0.2",
+	"publisher": "samson74",
+	"private": true,
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/samson74/vscode-mymind"
+	},
+	"engines": {
+		"vscode": "^1.52.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCustomEditor:mindmap.mymind"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"customEditors": [
+			{
+				"viewType": "mindmap.mymind",
+				"displayName": "mindmap(mymind)",
+				"selector": [
+					{
+						"filenamePattern": "*.mymind"
+					}
+				]
+			}
+		]
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint . --ext .ts,.tsx",
+		"watch": "tsc -w -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^12.12.0",
+		"@types/vscode": "^1.52.0",
+		"@typescript-eslint/eslint-plugin": "^5.19.0",
+		"@typescript-eslint/parser": "^5.19.0",
+		"eslint": "^8.13.0",
+		"typescript": "^4.6.3"
+	}
+}
