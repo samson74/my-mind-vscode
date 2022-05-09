@@ -25,8 +25,6 @@ export class MyMindEditorProvider implements vscode.CustomTextEditorProvider {
 
 	private static readonly viewType = 'mindmap.mymind';
 
-	private static readonly scratchCharacters = ['😸', '😹', '😺', '😻', '😼', '😽', '😾', '🙀', '😿', '🐱'];
-
 	constructor(
 		private readonly context: vscode.ExtensionContext
 	) { }
@@ -47,10 +45,18 @@ export class MyMindEditorProvider implements vscode.CustomTextEditorProvider {
 		};
 		webviewPanel.webview.html = this.getHtmlForWebview(webviewPanel.webview);
 
+		const mapCss = this.getMapCss();
+
 		function updateWebview() {
 			webviewPanel.webview.postMessage({
 				type: 'update',
 				text: document.getText(),
+			});
+		}
+		function updateMapCss() {
+			webviewPanel.webview.postMessage({
+				type: 'updateMapCss',
+				text: mapCss,
 			});
 		}
 
@@ -81,6 +87,7 @@ export class MyMindEditorProvider implements vscode.CustomTextEditorProvider {
 					return;
 	
 				case 'ready':
+					updateMapCss();
 					updateWebview();
 					return;
 			}
@@ -89,6 +96,19 @@ export class MyMindEditorProvider implements vscode.CustomTextEditorProvider {
 		//updateWebview();
 	}
 
+	/**
+	 * Get the static map.css file content.
+	 */
+	private getMapCss(): string {
+		// Local path to script and css for the webview
+		const onDiskPath = vscode.Uri.file(path.join(this.context.extensionPath, 'mymind', 'map.css'));
+		const fileContent =
+		process.platform === 'win32'
+			? fs.readFileSync(onDiskPath.path.slice(1)).toString()
+			: fs.readFileSync(onDiskPath.path).toString();
+
+		return fileContent;
+	}
 	/**
 	 * Get the static html used for the mymind editor webviews.
 	 */

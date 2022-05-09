@@ -3685,6 +3685,9 @@ ${text}`);
 
   // .js/map.js
   var css = "";
+  function setMapCss(inCss) {
+    css = inCss;
+  }
   var UPDATE_OPTIONS2 = {
     children: true
   };
@@ -4623,6 +4626,9 @@ ${text}`);
           this._initialized = false;
           this.updateContent(text);
           this._initialized = true;
+          return;
+        case "updateMapCss":
+          setMapCss(message.text);
           return;
       }
     }
